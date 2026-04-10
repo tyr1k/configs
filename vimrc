@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/vim-fern'
 Plug 'tpope/vim-fugitive'
@@ -15,23 +14,32 @@ set shiftwidth=4
 set expandtab
 set hlsearch
 set incsearch
+set completeopt=menuone,noinsert,noselect
+set timeout
+set timeoutlen=300
+set ttimeout
+set ttimeoutlen=30
+set redrawtime=10000
+
 syntax enable
 filetype plugin indent on
 
-set completeopt=menuone,noinsert,noselect
-inoremap <silent><expr> <C-Space> coc#refresh()
+inoremap <silent><expr> <C-@> coc#refresh()
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-let g:go_def_mode = 'gopls'
-let g:go_info_mode = 'gopls'
-let g:go_fmt_command = 'goimports'
-let g:go_gopls_enabled = 1
-
 nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gB :GitMessenger<CR>
 nnoremap <leader>e :Fern . -drawer -toggle -width=30<CR>
+
+let g:indentLine_enabled = 0
+
+augroup FastSyntax
+  autocmd!
+  autocmd FileType javascript,typescript,typescriptreact,javascriptreact,vue,svelte,html setlocal synmaxcol=200
+  autocmd FileType javascript,typescript,typescriptreact,javascriptreact,vue,svelte,html syntax sync minlines=50 maxlines=200
+augroup END
 
 augroup FernMappings
   autocmd!
